@@ -66,10 +66,10 @@ var FPS = 30;
 //game loop
 function gameLoop() {
 	clearCanvas();
-	moveLaser();
+	moveLasers();
 	moveEnemies();
 	moveShip();
-	drawLaser();
+	drawLasers();
 	drawEnemies();
 	drawShip();
 	setTimeout(gameLoop, 1000 / FPS);
@@ -143,7 +143,7 @@ function moveEnemies() {
 	}
 }
 
-function moveLaser() {
+function moveLasers() {
 	for (var i = 0; i < lasers.length; i++) {
 		if (lasers[i][1] < -LASER_H) {
 			lasers.splice(i, 1);
@@ -168,7 +168,7 @@ function drawEnemies() {
 	}
 }
 
-function drawLaser() {
+function drawLasers() {
 	if (lasers.length) {
 		for (var i = 0; i < lasers.length; i++) {
 			ctx.fillStyle = '#f00';
