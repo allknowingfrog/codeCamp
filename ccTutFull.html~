@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Game with score</title>
+<style>
+body {
+	padding:0;
+	margin:0;
+	background:#666;
+}
+canvas {
+	display:block;
+	margin:30px auto 0;
+	border:1px dashed #ccc;
+	background:#000;
+}
+</style>
+<script>
+var canvas;
+var ctx;
+var WIDTH = 600;
+var HEIGHT = 600;
+
+var ENEMY_TOTAL = 5;
+var enemies = [];
+var enemy_x = 50;
+var enemy_y = -45;
+var ENEMY_W = 50;
+var ENEMY_H = 38;
+var ENEMY_SPEED = 3;
+var enemy;
+
+var rightKey = false;
+var leftKey = false;
+var upKey = false;
+var downKey = false;
+
+var ship;
+var ship_x = (WIDTH / 2) - 25;
+var ship_y = HEIGHT - 75; 
+var SHIP_W = 50; 
+var SHIP_H = 57;
+var SHIP_SPEED = 5;
+
+var LASER_TOTAL = 2;
+var lasers = [];
+var LASER_W = 4;
+var LASER_H = 20;
+
+var score = 0;
+var alive = true;
+var lives = 3;
+
+//Array to hold all the enemies on screen
+for (var i = 0; i < ENEMY_TOTAL; i++) {
+	enemies.push([enemy_x, enemy_y]);
+	enemy_x += ENEMY_W + SHIP_W + 10;
+}
+
+//Clears the canvas so it can be updated
+function clearCanvas() {
+	ctx.clearRect(0,0,WIDTH,HEIGHT);
+}
+
+//Cycles through the array and draws the updated enemy position
+function drawEnemies() {
+	for (var i = 0; i < enemies.length; i++) {
+		ctx.drawImage(enemy, enemies[i][0], enemies[i][1]);
+	}
+}
+
+//If an arrow key is being pressed, moves the in the right direction
+function moveShip() {
+	if (rightKey) {
+		ship_x += SHIP_SPEED;
+	} else if (leftKey) {
+		ship_x -= SHIP_SPEED;
+	}
+	
+	if (upKey) {
+		ship_y -= SHIP_SPEED;
+	} else if (downKey) {
+		ship_y += SHIP_SPEED;
+	}
+	
+	if (ship_x <= 0) {
+		ship_x = 0;
+	}
+	
+	if ((ship_x + SHIP_W) >= WIDTH) {
+		ship_x = WIDTH - SHIP_W;
+	}
+	
+	if (ship_y <= 0) {
+		ship_y = 0;
+	}
+	
+	if ((ship_y + SHIP_H) >= HEIGHT) {
+		ship_y = HEIGHT - SHIP_H;
+	}
+}
+
+function drawShip() {	
+	ctx.drawImage(ship, ship_x, ship_y);
+}
+
+//This moves the enemies downwards on the canvas and if one passes the bottom of the canvas, it moves it to above the canvas
+function moveEnemies() {
+	for (var i = 0; i < enemies.length; i++) {
+		if (enemies[i][1] < HEIGHT) {
+			enemies[i][1] += ENEMY_SPEED;
+		} else if (enemies[i][1] > HEIGHT - 1) {
+			enemies[i][1] = -45;
+		}
+	}
+}
+
+//If there are lasers in the lasers array, then this will draw them on the canvas
+function drawLaser() {
+	if (lasers.length) {
+		for (var i = 0; i < lasers.length; i++) {
+			ctx.fillStyle = '#f00';
+			ctx.fillRect(lasers[i][0],lasers[i][1],LASER_W,LASER_H)
+		}
+	}
+}
+
+//If we're drawing lasers on the canvas, this moves them up the canvas
+function moveLaser() {
+	for (var i = 0; i < lasers.length; i++) {
+		if (lasers[i][1] > -11) {
+			lasers[i][1] -= 10;
+		} else if (lasers[i][1] < -10) {
+			lasers.splice(i, 1);
+		}
+	}
+}
+
+//Runs a couple of loops to see if any of the lasers have hit any of the enemies
+function hitTest() {
+	var remove = false;
+	for (var i = 0; i < lasers.length; i++) {
+		for (var j = 0; j < enemies.length; j++) {
+			if (lasers[i][1] <= (enemies[j][1] + ENEMY_H) && lasers[i][0] >= enemies[j][0] && lasers[i][0] <= (enemies[j][0] + ENEMY_W)) {
+				remove = true;
+				enemies.splice(j, 1);
+				score += 10;
+				enemies.push([(Math.random() * 500) + 50, -45]);
+			}
+		}
+		if (remove == true) {
+			lasers.splice(i, 1);
+			remove = false;
+		}
+	}
+}
+
+//Similar to the laser hit test, this function checks to see if the player's ship collides with any of the enemies
+function shipCollision() {
+	var ship_xw = ship_x + SHIP_W,
+	ship_yh = ship_y + SHIP_H;
+	for (var i = 0; i < enemies.length; i++) {
+		if (ship_x > enemies[i][0] && ship_x < enemies[i][0] + ENEMY_W && ship_y > enemies[i][1] && ship_y < enemies[i][1] + ENEMY_H) {
+			checkLives();
+		}
+		if (ship_xw < enemies[i][0] + ENEMY_W && ship_xw > enemies[i][0] && ship_y > enemies[i][1] && ship_y < enemies[i][1] + ENEMY_H) {
+			checkLives();
+		}
+		if (ship_yh > enemies[i][1] && ship_yh < enemies[i][1] + ENEMY_H && ship_x > enemies[i][0] && ship_x < enemies[i][0] + ENEMY_W) {
+			checkLives();
+		}
+		if (ship_yh > enemies[i][1] && ship_yh < enemies[i][1] + ENEMY_H && ship_xw < enemies[i][0] + ENEMY_W && ship_xw > enemies[i][0]) {
+			checkLives();
+		}
+	}
+}
+
+//This function runs whenever the player's ship hits an enemy and either subtracts a life or sets the alive variable to false if the player runs out of lives
+function checkLives() {
+	lives -= 1;
+	if (lives > 0) {
+		reset();
+	} else if (lives == 0) {
+		alive = false;
+	}
+}
+
+//This simply resets the ship and enemies to their starting positions
+function reset() {
+	var enemy_reset_x = 50;
+	ship_x = (WIDTH / 2) - 25, ship_y = HEIGHT - 75, SHIP_W = 50, SHIP_H = 57;
+	for (var i = 0; i < enemies.length; i++) {
+		enemies[i][0] = enemy_reset_x;
+		enemies[i][1] = -45;
+		enemy_reset_x = enemy_reset_x + ENEMY_W + 60;
+	}
+}
+
+//After the player loses all their lives, the continue button is shown and if clicked, it resets the game and removes the event listener for the continue button
+function continueButton(e) {
+	var cursorPos = getCursorPos(e);
+	if (cursorPos.x > (WIDTH / 2) - 53 && cursorPos.x < (WIDTH / 2) + 47 && cursorPos.y > (HEIGHT / 2) + 10 && cursorPos.y < (HEIGHT / 2) + 50) {
+		alive = true;
+		lives = 3;
+		reset();
+		canvas.removeEventListener('click', continueButton, false);
+	}
+}
+
+//holds the cursors position
+function cursorPosition(x,y) {
+	this.x = x;
+	this.y = y;
+}
+
+//finds the cursor's position after the mouse is clicked
+function getCursorPos(e) {
+	var x;
+	var y;
+	if (e.pageX || e.pageY) {
+		x = e.pageX;
+		y = e.pageY;
+	} else {
+		x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+		y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+	}
+	x -= canvas.offsetLeft;
+	y -= canvas.offsetTop;
+	var cursorPos = new cursorPosition(x, y);
+	return cursorPos;
+}
+
+//Draws the text for the score and lives on the canvas and if the player runs out of lives, it's draws the game over text and continue button as well as adding the event listener for the continue button
+function scoreTotal() {
+	ctx.font = 'bold 18px Arial';
+	ctx.fillStyle = '#fff';
+	ctx.fillText('Score: ', 490, 30);
+	ctx.fillText(score, 550, 30);
+	ctx.fillText('Lives:', 10, 30);
+	ctx.fillText(lives, 68, 30);
+	if (!alive) {
+		ctx.fillText('Game Over!', 245, HEIGHT / 2);
+		ctx.fillRect((WIDTH / 2) - 53, (HEIGHT / 2) + 10,100,40);
+		ctx.fillStyle = '#000';
+		ctx.fillText('Continue?', 252, (HEIGHT / 2) + 35);
+		canvas.addEventListener('click', continueButton, false);
+	}
+}
+
+//The initial function called when the page first loads. Loads the ship, enemy and starfield images and adds the event listeners for the arrow keys. It then calls the gameLoop function.
+function init() {
+	canvas = document.getElementById('canvas');
+	ctx = canvas.getContext('2d');
+	enemy = new Image();
+	enemy.src = '8bit_enemy.png';
+	ship = new Image();
+	ship.src = 'ship.png';
+	document.addEventListener('keydown', keyDown, false);
+	document.addEventListener('keyup', keyUp, false);
+	gameLoop();
+}
+
+//The main function of the game, it calls all the other functions needed to make the game run
+function gameLoop() {
+	clearCanvas();
+	if (alive && lives > 0) {
+		hitTest();
+		shipCollision();
+		moveLaser();
+		moveEnemies();
+		moveShip();
+		drawLaser();
+		drawEnemies();
+		drawShip();
+	}
+	scoreTotal();
+	game = setTimeout(gameLoop, 1000 / 30);
+}
+
+//Checks to see which key has been pressed and either to move the ship or fire a laser
+function keyDown(e) {
+	if (e.keyCode == 39) {
+		rightKey = true;
+	} else if (e.keyCode == 37) {
+		leftKey = true;
+	}
+	
+	if (e.keyCode == 38) {
+		upKey = true;
+	} else if (e.keyCode == 40) {
+		downKey = true;
+	}
+	
+	if (e.keyCode == 88 && lasers.length <= LASER_TOTAL) {
+		lasers.push([ship_x + (SHIP_W / 2) - (LASER_W / 2), ship_y - LASER_H, LASER_W, LASER_H]);
+	}
+}
+
+//Checks to see if a pressed key has been released and stops the ships movement if it has
+function keyUp(e) {
+	if (e.keyCode == 39) {
+		rightKey = false;
+	} else if (e.keyCode == 37) {
+		leftKey = false;
+	}
+	
+	if (e.keyCode == 38) {
+		upKey = false;
+	} else if (e.keyCode == 40) {
+		downKey = false;
+	}
+}
+
+window.onload = init;
+</script>
+</head>
+
+<body>
+	<canvas id="canvas" width="600" height="600"></canvas>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Verticle Scrolling Shooter</title>
+<style>
+body {
+	padding:0;
+	margin:0;
+	background:#666;
+}
+canvas {
+	display:block;
+	margin:30px auto 0;
+	border:1px dashed #ccc;
+	background:#000;
+}
+</style>
+<script>
+//canvas vars
+var canvas;
+var CANVAS_W = 600;
+var CANVAS_H = 600;
+var ctx;
+
+//keypress vars
+var rightKey = false;
+var leftKey = false;
+var upKey = false;
+var downKey = false;
+
+//key-binding vars
+var RIGHT = 39;
+var LEFT = 37;
+var UP = 38;
+var DOWN = 40;
+
+//ship vars
+var ship;
+var SHIP_W = 50; 
+var SHIP_H = 57;
+var SHIP_SPEED = 5;
+var ship_x;
+var ship_y;
+
+//misc vars
+var FPS = 30;
+
+//game loop
+function gameLoop() {
+	clearCanvas();
+	moveShip();
+	drawShip();
+	setTimeout(gameLoop, 1000 / FPS);
+}
+
+//init functions
+function init() {
+	canvas = document.getElementById('canvas');
+	canvas.width = CANVAS_W;
+	canvas.height = CANVAS_H;
+	ctx = canvas.getContext('2d');
+	shipInit();
+	ship = new Image();
+	ship.src = 'ship.png';
+	document.addEventListener('keydown', keyDown, false);
+	document.addEventListener('keyup', keyUp, false);
+	gameLoop();
+}
+
+function shipInit() {
+	ship_x = (CANVAS_W / 2) - (SHIP_W / 2);
+	ship_y = CANVAS_H - (1.5 * SHIP_H); 
+}
+
+//move functions
+function moveShip() {
+	if (rightKey) {
+		ship_x += SHIP_SPEED;
+	} else if (leftKey) {
+		ship_x -= SHIP_SPEED;
+	}
+	if (upKey) {
+		ship_y -= SHIP_SPEED;
+	} else if (downKey) {
+		ship_y += SHIP_SPEED;
+	}
+	
+	if (ship_x <= 0) {
+		ship_x = 0;
+	}
+	if ((ship_x + SHIP_W) >= CANVAS_W) {
+		ship_x = CANVAS_W - SHIP_W;
+	}
+	if (ship_y <= 0) {
+		ship_y = 0;
+	}
+	if ((ship_y + SHIP_H) >= CANVAS_H) {
+		ship_y = CANVAS_H - SHIP_H;
+	}
+}
+
+//draw functions
+function clearCanvas() {
+	ctx.clearRect(0,0,CANVAS_W,CANVAS_H);
+}
+
+function drawShip() {	
+	ctx.drawImage(ship, ship_x, ship_y);
+}
+
+//input functions
+function keyDown(e) {
+	if (e.keyCode == RIGHT) {
+		rightKey = true;
+	} else if (e.keyCode == LEFT) {
+		leftKey = true;
+	}
+	
+	if (e.keyCode == UP) {
+		upKey = true;
+	} else if (e.keyCode == DOWN) {
+		downKey = true;
+	}
+}
+
+function keyUp(e) {
+	if (e.keyCode == RIGHT) {
+		rightKey = false;
+	} else if (e.keyCode == LEFT) {
+		leftKey = false;
+	}
+	
+	if (e.keyCode == UP) {
+		upKey = false;
+	} else if (e.keyCode == DOWN) {
+		downKey = false;
+	}
+}
+
+//start game
+window.onload = init;
+</script>
+</head>
+
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>
