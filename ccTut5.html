@@ -24,22 +24,22 @@ var CANVAS_H = 600;
 var ctx;
 
 //keypress vars
-var rightKey = false;
-var leftKey = false;
-var upKey = false;
-var downKey = false;
+var rightKey = false;// <<<<<
+var leftKey = false;// <<<<<
+var upKey = false;// <<<<<
+var downKey = false;// <<<<<
 
 //key-binding vars
-var RIGHT = 39;
-var LEFT = 37;
-var UP = 38;
-var DOWN = 40;
+var RIGHT = 39;// <<<<<
+var LEFT = 37;// <<<<<
+var UP = 38;// <<<<<
+var DOWN = 40;// <<<<<
 
 //ship vars
 var ship;
 var SHIP_W = 50; 
 var SHIP_H = 57;
-var SHIP_SPEED = 5;
+var SHIP_SPEED = 5;// <<<<<
 var ship_x;
 var ship_y;
 
@@ -49,7 +49,7 @@ var FPS = 30;
 //game loop
 function gameLoop() {
 	clearCanvas();
-	moveShip();
+	moveShip();// <<<<<
 	drawShip();
 	setTimeout(gameLoop, 1000 / FPS);
 }
@@ -63,8 +63,8 @@ function init() {
 	shipInit();
 	ship = new Image();
 	ship.src = 'ship.png';
-	document.addEventListener('keydown', keyDown, false);
-	document.addEventListener('keyup', keyUp, false);
+	document.addEventListener('keydown', keyDown, false);// <<<<<
+	document.addEventListener('keyup', keyUp, false);// <<<<<
 	gameLoop();
 }
 
@@ -74,31 +74,31 @@ function shipInit() {
 }
 
 //move functions
-function moveShip() {
-	if (rightKey) {
-		ship_x += SHIP_SPEED;
-	} else if (leftKey) {
-		ship_x -= SHIP_SPEED;
-	}
-	if (upKey) {
-		ship_y -= SHIP_SPEED;
-	} else if (downKey) {
-		ship_y += SHIP_SPEED;
-	}
+function moveShip() {// <<<<<
+	if (rightKey) {// <<<<<
+		ship_x += SHIP_SPEED;// <<<<<
+	} else if (leftKey) {// <<<<<
+		ship_x -= SHIP_SPEED;// <<<<<
+	}// <<<<<
+	if (upKey) {// <<<<<
+		ship_y -= SHIP_SPEED;// <<<<<
+	} else if (downKey) {// <<<<<
+		ship_y += SHIP_SPEED;// <<<<<
+	}// <<<<<
 	
-	if (ship_x <= 0) {
-		ship_x = 0;
-	}
-	if ((ship_x + SHIP_W) >= CANVAS_W) {
-		ship_x = CANVAS_W - SHIP_W;
-	}
-	if (ship_y <= 0) {
-		ship_y = 0;
-	}
-	if ((ship_y + SHIP_H) >= CANVAS_H) {
-		ship_y = CANVAS_H - SHIP_H;
-	}
-}
+	if (ship_x <= 0) {// <<<<<
+		ship_x = 0;// <<<<<
+	}// <<<<<
+	if ((ship_x + SHIP_W) >= CANVAS_W) {// <<<<<
+		ship_x = CANVAS_W - SHIP_W;// <<<<<
+	}// <<<<<
+	if (ship_y <= 0) {// <<<<<
+		ship_y = 0;// <<<<<
+	}// <<<<<
+	if ((ship_y + SHIP_H) >= CANVAS_H) {// <<<<<
+		ship_y = CANVAS_H - SHIP_H;// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //draw functions
 function clearCanvas() {
@@ -110,33 +110,33 @@ function drawShip() {
 }
 
 //input functions
-function keyDown(e) {
-	if (e.keyCode == RIGHT) {
-		rightKey = true;
-	} else if (e.keyCode == LEFT) {
-		leftKey = true;
-	}
+function keyDown(e) {// <<<<<
+	if (e.keyCode == RIGHT) {// <<<<<
+		rightKey = true;// <<<<<
+	} else if (e.keyCode == LEFT) {// <<<<<
+		leftKey = true;// <<<<<
+	}// <<<<<
 	
-	if (e.keyCode == UP) {
-		upKey = true;
-	} else if (e.keyCode == DOWN) {
-		downKey = true;
-	}
-}
+	if (e.keyCode == UP) {// <<<<<
+		upKey = true;// <<<<<
+	} else if (e.keyCode == DOWN) {// <<<<<
+		downKey = true;// <<<<<
+	}// <<<<<
+}// <<<<<
 
-function keyUp(e) {
-	if (e.keyCode == RIGHT) {
-		rightKey = false;
-	} else if (e.keyCode == LEFT) {
-		leftKey = false;
-	}
+function keyUp(e) {// <<<<<
+	if (e.keyCode == RIGHT) {// <<<<<
+		rightKey = false;// <<<<<
+	} else if (e.keyCode == LEFT) {// <<<<<
+		leftKey = false;// <<<<<
+	}// <<<<<
 	
-	if (e.keyCode == UP) {
-		upKey = false;
-	} else if (e.keyCode == DOWN) {
-		downKey = false;
-	}
-}
+	if (e.keyCode == UP) {// <<<<<
+		upKey = false;// <<<<<
+	} else if (e.keyCode == DOWN) {// <<<<<
+		downKey = false;// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //start game
 window.onload = init;

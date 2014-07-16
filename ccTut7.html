@@ -34,7 +34,7 @@ var RIGHT = 39;
 var LEFT = 37;
 var UP = 38;
 var DOWN = 40;
-var FIRE = 88;
+var FIRE = 88;// <<<<<
 
 //enemy vars
 var enemy;
@@ -54,11 +54,11 @@ var ship_x;
 var ship_y;
 
 //laser vars
-var LASER_W = 4;
-var LASER_H = 20;
-var LASER_SPEED = 10;
-var LASER_TOTAL = 2;
-var lasers = [];
+var LASER_W = 4;// <<<<<
+var LASER_H = 20;// <<<<<
+var LASER_SPEED = 10;// <<<<<
+var LASER_TOTAL = 2;// <<<<<
+var lasers = [];// <<<<<
 
 //misc vars
 var FPS = 30;
@@ -66,10 +66,10 @@ var FPS = 30;
 //game loop
 function gameLoop() {
 	clearCanvas();
-	moveLasers();
+	moveLasers();// <<<<<
 	moveEnemies();
 	moveShip();
-	drawLasers();
+	drawLasers();// <<<<<
 	drawEnemies();
 	drawShip();
 	setTimeout(gameLoop, 1000 / FPS);
@@ -143,15 +143,15 @@ function moveEnemies() {
 	}
 }
 
-function moveLasers() {
-	for (var i = 0; i < lasers.length; i++) {
-		if (lasers[i][1] < -LASER_H) {
-			lasers.splice(i, 1);
-		} else {
-			lasers[i][1] -= LASER_SPEED;
-		}
-	}
-}
+function moveLasers() {// <<<<<
+	for (var i = 0; i < lasers.length; i++) {// <<<<<
+		if (lasers[i][1] < -LASER_H) {// <<<<<
+			lasers.splice(i, 1);// <<<<<
+		} else {// <<<<<
+			lasers[i][1] -= LASER_SPEED;// <<<<<
+		}// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //draw functions
 function clearCanvas() {
@@ -168,14 +168,14 @@ function drawEnemies() {
 	}
 }
 
-function drawLasers() {
-	if (lasers.length) {
-		for (var i = 0; i < lasers.length; i++) {
-			ctx.fillStyle = '#f00';
-			ctx.fillRect(lasers[i][0],lasers[i][1],LASER_W,LASER_H)
-		}
-	}
-}
+function drawLasers() {// <<<<<
+	if (lasers.length) {// <<<<<
+		for (var i = 0; i < lasers.length; i++) {// <<<<<
+			ctx.fillStyle = '#f00';// <<<<<
+			ctx.fillRect(lasers[i][0],lasers[i][1],LASER_W,LASER_H)// <<<<<
+		}// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //input functions
 function keyDown(e) {
@@ -191,9 +191,9 @@ function keyDown(e) {
 		downKey = true;
 	}
 	
-	if (e.keyCode == FIRE && lasers.length <= LASER_TOTAL) {
-		lasers.push([ship_x + (SHIP_W / 2) - (LASER_W / 2), ship_y - LASER_H]);
-	}
+	if (e.keyCode == FIRE && lasers.length <= LASER_TOTAL) {// <<<<<
+		lasers.push([ship_x + (SHIP_W / 2) - (LASER_W / 2), ship_y - LASER_H]);// <<<<<
+	}// <<<<<
 }
 
 function keyUp(e) {

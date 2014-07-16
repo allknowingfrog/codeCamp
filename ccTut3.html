@@ -24,11 +24,11 @@ var CANVAS_H = 600;
 var ctx;
 
 //ship vars
-var ship;
-var SHIP_W = 50; 
-var SHIP_H = 57;
-var ship_x;
-var ship_y;
+var ship;// <<<<<
+var SHIP_W = 50; // <<<<<
+var SHIP_H = 57;// <<<<<
+var ship_x;// <<<<<
+var ship_y;// <<<<<
 
 //init functions
 function init() {
@@ -36,21 +36,21 @@ function init() {
 	canvas.width = CANVAS_W;
 	canvas.height = CANVAS_H;
 	ctx = canvas.getContext('2d');
-	shipInit();
-	ship = new Image();
-	ship.src = 'ship.png';
-	drawShip();
+	shipInit();// <<<<<
+	ship = new Image();// <<<<<
+	ship.src = 'ship.png';// <<<<<
+	drawShip();// <<<<<
 }
 
-function shipInit() {
-	ship_x = (CANVAS_W / 2) - (SHIP_W / 2);
-	ship_y = CANVAS_H - (1.5 * SHIP_H); 
-}
+function shipInit() {// <<<<<
+	ship_x = (CANVAS_W / 2) - (SHIP_W / 2);// <<<<<
+	ship_y = CANVAS_H - (1.5 * SHIP_H); // <<<<<
+}// <<<<<
 
 //draw functions
-function drawShip() {	
-	ctx.drawImage(ship, ship_x, ship_y);
-}
+function drawShip() {	// <<<<<
+	ctx.drawImage(ship, ship_x, ship_y);// <<<<<
+}// <<<<<
 
 //start game
 window.onload = init;

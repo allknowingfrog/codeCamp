@@ -36,13 +36,13 @@ var UP = 38;
 var DOWN = 40;
 
 //enemy vars
-var enemy;
-var ENEMY_W = 50;
-var ENEMY_H = 38;
-var ENEMY_START = -(ENEMY_H + 10);
-var ENEMY_SPEED = 3;
-var ENEMY_TOTAL = 5;
-var enemies = [];
+var enemy;// <<<<<
+var ENEMY_W = 50;// <<<<<
+var ENEMY_H = 38;// <<<<<
+var ENEMY_START = -(ENEMY_H + 10);// <<<<<
+var ENEMY_SPEED = 3;// <<<<<
+var ENEMY_TOTAL = 5;// <<<<<
+var enemies = [];// <<<<<
 
 //ship vars
 var ship;
@@ -58,9 +58,9 @@ var FPS = 30;
 //game loop
 function gameLoop() {
 	clearCanvas();
-	moveEnemies();
+	moveEnemies();// <<<<<
 	moveShip();
-	drawEnemies();
+	drawEnemies();// <<<<<
 	drawShip();
 	setTimeout(gameLoop, 1000 / FPS);
 }
@@ -71,10 +71,10 @@ function init() {
 	canvas.width = CANVAS_W;
 	canvas.height = CANVAS_H;
 	ctx = canvas.getContext('2d');
-	enemiesInit();
+	enemiesInit();// <<<<<
 	shipInit();
-	enemy = new Image();
-	enemy.src = '8bit_enemy.png';
+	enemy = new Image();// <<<<<
+	enemy.src = '8bit_enemy.png';// <<<<<
 	ship = new Image();
 	ship.src = 'ship.png';
 	document.addEventListener('keydown', keyDown, false);
@@ -87,14 +87,14 @@ function shipInit() {
 	ship_y = CANVAS_H - (1.5 * SHIP_H); 
 }
 
-function enemiesInit() {
-	enemies = [];
-	var enemy_x = 50;
-	for (var i = 0; i < ENEMY_TOTAL; i++) {
-		enemies.push([enemy_x, ENEMY_START]);
-		enemy_x += ENEMY_W + SHIP_W + 10;
-	}
-}
+function enemiesInit() {// <<<<<
+	enemies = [];// <<<<<
+	var enemy_x = 50;// <<<<<
+	for (var i = 0; i < ENEMY_TOTAL; i++) {// <<<<<
+		enemies.push([enemy_x, ENEMY_START]);// <<<<<
+		enemy_x += ENEMY_W + SHIP_W + 10;// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //move functions
 function moveShip() {
@@ -123,15 +123,15 @@ function moveShip() {
 	}
 }
 
-function moveEnemies() {
-	for (var i = 0; i < enemies.length; i++) {
-		if (enemies[i][1] > CANVAS_H) {
-			enemies[i][1] = ENEMY_START;
-		} else {
-			enemies[i][1] += ENEMY_SPEED;
-		}
-	}
-}
+function moveEnemies() {// <<<<<
+	for (var i = 0; i < enemies.length; i++) {// <<<<<
+		if (enemies[i][1] > CANVAS_H) {// <<<<<
+			enemies[i][1] = ENEMY_START;// <<<<<
+		} else {// <<<<<
+			enemies[i][1] += ENEMY_SPEED;// <<<<<
+		}// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //draw functions
 function clearCanvas() {
@@ -142,11 +142,11 @@ function drawShip() {
 	ctx.drawImage(ship, ship_x, ship_y);
 }
 
-function drawEnemies() {
-	for (var i = 0; i < enemies.length; i++) {
-		ctx.drawImage(enemy, enemies[i][0], enemies[i][1]);
-	}
-}
+function drawEnemies() {// <<<<<
+	for (var i = 0; i < enemies.length; i++) {// <<<<<
+		ctx.drawImage(enemy, enemies[i][0], enemies[i][1]);// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //input functions
 function keyDown(e) {

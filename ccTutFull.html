@@ -61,10 +61,10 @@ var LASER_TOTAL = 2;
 var lasers = [];
 
 //continue button vars
-var CONT_W = 100;
-var CONT_H = 40;
-var CONT_X = CANVAS_W / 2 - CONT_W / 2;
-var CONT_Y = CANVAS_H / 2 - CONT_H / 2;
+var CONT_W = 100; // <<<<<
+var CONT_H = 40; // <<<<<
+var CONT_X = CANVAS_W / 2 - CONT_W / 2; // <<<<<
+var CONT_Y = CANVAS_H / 2 - CONT_H / 2; // <<<<<
 
 //misc vars
 var FPS = 30;
@@ -89,7 +89,7 @@ function gameLoop() {
 		setTimeout(gameLoop, 1000 / FPS);
 	} else {
 		drawUI();
-		drawContinue();
+		drawContinue(); // <<<<<
 	}
 }
 
@@ -98,7 +98,7 @@ function init() {
 	canvas = document.getElementById('canvas');
 	canvas.width = CANVAS_W;
 	canvas.height = CANVAS_H;
-	canvas.onclick = function(e) {click(e)};
+	canvas.onclick = function(e) {click(e)}; // <<<<<
 	ctx = canvas.getContext('2d');
 	enemiesInit();
 	shipInit();
@@ -232,11 +232,11 @@ function drawUI() {
 	ctx.fillText(lives, 68, 30);
 }
 
-function drawContinue() {
-	ctx.fillRect(CONT_X, CONT_Y, CONT_W, CONT_H);
-	ctx.fillStyle = '#000';
-	ctx.fillText('Continue?', CONT_X + 5, CONT_Y + CONT_H - 15);
-}
+function drawContinue() { // <<<<<
+	ctx.fillRect(CONT_X, CONT_Y, CONT_W, CONT_H); // <<<<<
+	ctx.fillStyle = '#000'; // <<<<<
+	ctx.fillText('Continue?', CONT_X + 5, CONT_Y + CONT_H - 15); // <<<<<
+} // <<<<<
 
 //input functions
 function keyDown(e) {
@@ -271,18 +271,18 @@ function keyUp(e) {
 	}
 }
 
-function click(e) {
-	var rect = canvas.getBoundingClientRect();
-	var x = e.clientX - rect.left;
-	var y = e.clientY - rect.top;
-	if (!alive && collision(x, y, 0, 0, CONT_X, CONT_Y, CONT_W, CONT_H)) {
-		reset();
-		lives = LIVES_TOTAL;
-		score = 0;
-		alive = true;
-		gameLoop();
-	}
-}
+function click(e) { // <<<<<
+	var rect = canvas.getBoundingClientRect(); // <<<<<
+	var x = e.clientX - rect.left; // <<<<<
+	var y = e.clientY - rect.top; // <<<<<
+	if (!alive && collision(x, y, 0, 0, CONT_X, CONT_Y, CONT_W, CONT_H)) { // <<<<<
+		reset(); // <<<<<
+		lives = LIVES_TOTAL; // <<<<<
+		score = 0; // <<<<<
+		alive = true; // <<<<<
+		gameLoop(); // <<<<<
+	} // <<<
+} // <<<
 
 //helper functions
 function collision(x,y,w,h,xx,yy,ww,hh) {

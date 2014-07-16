@@ -67,7 +67,7 @@ var FPS = 30;
 function gameLoop() {
 	clearCanvas();
 	laserCollision();
-	shipCollision();
+    shipCollision();// <<<<<
 	moveLasers();
 	moveEnemies();
 	moveShip();
@@ -173,13 +173,13 @@ function laserCollision() {
 	}
 }
 
-function shipCollision() {
-	for (var i = 0; i < enemies.length; i++) {
-		if (collision(ship_x, ship_y, SHIP_W, SHIP_H, enemies[i][0], enemies[i][1], ENEMY_W, ENEMY_H)) {
-			checkLives();
-		}
-	}
-}
+function shipCollision() {// <<<<<
+	for (var i = 0; i < enemies.length; i++) {// <<<<<
+		if (collision(ship_x, ship_y, SHIP_W, SHIP_H, enemies[i][0], enemies[i][1], ENEMY_W, ENEMY_H)) {// <<<<<
+			checkLives();// <<<<<
+		}// <<<<<
+	}// <<<<<
+}// <<<<<
 
 //draw functions
 function clearCanvas() {
@@ -257,15 +257,15 @@ function collision(x,y,w,h,xx,yy,ww,hh) {
 	}
 }
 
-function checkLives() {
-	reset();
-}
+function checkLives() {// <<<<<
+	reset();// <<<<<
+}// <<<<<
 
-function reset() {
-	shipInit();
-	enemiesInit();
-	lasers = [];
-}
+function reset() {// <<<<<
+	shipInit();// <<<<<
+	enemiesInit();// <<<<<
+	lasers = [];// <<<<<
+}// <<<<<
 
 //start game
 window.onload = init;

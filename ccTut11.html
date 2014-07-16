@@ -62,7 +62,7 @@ var lasers = [];
 
 //misc vars
 var FPS = 30;
-var score = 0;
+var score = 0;// <<<<<
 var alive = true;
 var LIVES_TOTAL = 3;
 var lives = LIVES_TOTAL;
@@ -172,7 +172,7 @@ function laserCollision() {
 			if (collision(lasers[i][0], lasers[i][1], LASER_W, LASER_H, enemies[j][0], enemies[j][1], ENEMY_W, ENEMY_H)) {
 				remove = true;
 				enemies.splice(j, 1);
-				score += 10;
+				score += 10;// <<<<<
 				enemies.push([Math.random() * (CANVAS_W - ENEMY_W), ENEMY_START]);
 			}
 		}
@@ -218,8 +218,8 @@ function drawLasers() {
 function drawUI() {
 	ctx.font = 'bold 18px Arial';
 	ctx.fillStyle = '#fff';
-	ctx.fillText('Score: ', CANVAS_W - 110, 30);
-	ctx.fillText(score, CANVAS_W - 50, 30);
+	ctx.fillText('Score: ', CANVAS_W - 110, 30);// <<<<<
+	ctx.fillText(score, CANVAS_W - 50, 30);// <<<<<
 	ctx.fillText('Lives:', 10, 30);
 	ctx.fillText(lives, 68, 30);
 }
