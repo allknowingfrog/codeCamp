@@ -81,3 +81,50 @@ Finally, it's good practice to include language and character set information.
 ```
 
 If you've been following along, your file should now be identical to tut01.html in the tutorial directory.
+
+### Step Two - Initialization
+
+Any time we load our game, we'll want to do some setup. Before we can display anything to the screen, we'll need to access the canvas element. Let's create some canvas variables.
+```
+...
+<script>
+//canvas vars
+var canvas;
+var CANVAS_W = 600;
+var CANVAS_H = 600;
+var ctx;
+</script>
+...
+```
+
+Comments in JavaScript are defined by two slashes (//). Anything after is ignored. After the comment, we create a variable to hold the canvas. This will allow JavaScript to access it. We'll store a width and height for the canvas. These should never change during our program. Variables that do not change are called "constants" and are often capitalized to remind us not to change them. Finally, ctx is an abbreviation for context. Every canvas element has a context, and this is where drawing actually takes place.
+
+When we start our game, we'll want to tie our canvas variables to the HTML canvas element and apply the width and height. To do so, we'll create an init function.
+```
+...
+var ctx;
+
+//init functions
+function init() {
+	canvas = document.getElementById('canvas');
+	canvas.width = CANVAS_W;
+	canvas.height = CANVAS_H;
+	ctx = canvas.getContext('2d');
+}
+</script>
+...
+```
+Whenever we call init, this code will execute. It will store the canvas HTML element in the canvas variable, set the width and height, and store the context in the ctx variable.
+
+Finally, let's call our function when the window has loaded and is ready to go.
+```
+...
+}
+
+//start game
+window.onload = init;
+</script>
+...
+```
+
+When you load this file, you should see that the canvas has been resized according to CANVAS_W and CANVAS_H. Your code should now match tut02.html in the tutorial directory.
