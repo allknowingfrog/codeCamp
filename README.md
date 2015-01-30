@@ -1,5 +1,4 @@
-# Pew-Pew
-## An HTML5, Vertical Scrolling Shooter
+## Pew-Pew - An HTML5, Vertical Scrolling Shooter
 
 This tutorial series was originally presented at Sycamore Code Camp 2014. It is inspired by Mike Thomas's excellent tutorial (http://atomicrobotdesign.com/blog/htmlcss/build-a-vertical-scrolling-shooter-game-with-html5-canvas-part-1).
 
@@ -80,3 +79,5 @@ Finally, it's good practice to include language and character set information.
 <title>Pew-Pew</title>
 ...
 ```
+
+If you've been following along, your file should now be identical to tut01.html in the tutorial directory.
