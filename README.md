@@ -22,14 +22,14 @@ This tutorial will assume some basic knowledge of HTML. If any part of that docu
 
 To the body of this document, we'll add a canvas element. This is where the game will actually be rendered. Giving it an id will allow us to easily access it with JavaScript.
 ```
-`<body>`
+<body>
 	<canvas id="canvas"></canvas>
-`</body>`
+</body>
 ```
 
 To the head section, we'll add some CSS styles to make the body and canvas visible. CSS will not be a major factor in this tutorial. Feel free to continue even if this is gibberish.
 ```
-`<head>`
+<head>
 <style>
 body {
 	background: gray;
@@ -41,31 +41,31 @@ canvas {
 	background: black;
 }
 </style>
-`</head>`
+</head>
 ```
 
 If you save this file with a .html extension and open it with a web browser, you should see a black box with a white border in the middle of a gray page.
 
 A title is a nice touch.
 ```
-`<head>`
+<head>
 <title>Pew-Pew</title>
-`<style>`
+<style>
 ```
 
 We'll need a place to put our JavaScript also.
 ```
-`<style>`
+<style>
 <script>
 </script>
-`</head>`
+</head>
 ```
 
 Finally, it's good practice to include language and character set information.
 ```
-`<!DOCTYPE html>`
-`<html `lang="en">
-`<head>`
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
-`<title>Pew-Pew</title>`
+<title>Pew-Pew</title>
 ```
