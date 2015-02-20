@@ -4,6 +4,8 @@ This tutorial series was originally presented at Sycamore Code Camp 2014. It is 
 
 The tutorial is divided into 12 steps. A copy of the code at each step is available in the tutorial directory. If you want to skip the explanation and go it alone, the finished game is located in index.html.
 
+This tutorial is not intended to be a beginner's introduction to JavaScript. Instead, it is an introduction to some of the principles of game design. It assumes a basic understanding of HTML, as well as a grasp of the fundamentals of JavaScript (such as the role of variables, functions and objects). If you've learned a bit of JavaScript, but don't know what to do with your new knowledge, this is for you.
+
 ### Step One - Basic HTML
 
 This is a minimal HTML5 document:
@@ -18,9 +20,8 @@ This is a minimal HTML5 document:
 </html>
 ...
 ```
-This tutorial will assume some basic knowledge of HTML. If any part of that document puzzles you, you should go find some basic knowledge of HTML.
 
-To the body of this document, we'll add a canvas element. This is where the game will actually be rendered. Giving it an id will allow us to easily access it with JavaScript.
+To the body of this document, we'll add a canvas element. This is where the game will actually be drawn. Giving it an id will allow us to easily access it with JavaScript.
 ```
 ...
 <body>
@@ -97,7 +98,7 @@ var ctx;
 ...
 ```
 
-Comments in JavaScript are defined by two slashes (//). Anything after is ignored. After the comment, we create a variable to hold the canvas. This will allow JavaScript to access it. We'll store a width and height for the canvas. These should never change during our program. Variables that do not change are called "constants" and are often capitalized to remind us not to change them. Finally, ctx is an abbreviation for context. Every canvas element has a context, and this is where drawing actually takes place.
+We'll connect our canvas variable to the canvas element, which will allow JavaScript to access it, and we'll store a width and height for the canvas. These should never change during our program. Variables that do not change are called "constants" and are often capitalized to remind us not to change them. Finally, ctx is an abbreviation for context. Every canvas element has a context, and this is where drawing actually takes place.
 
 When we start our game, we'll want to tie our canvas variables to the HTML canvas element and apply the width and height. To do so, we'll create an init function.
 ```
@@ -114,9 +115,9 @@ function init() {
 </script>
 ...
 ```
-Whenever we call init, this code will execute. It will store the canvas HTML element in the canvas variable, set the width and height, and store the context in the ctx variable.
+Whenever we call init, it will store the canvas HTML element in the canvas variable, set the width and height, and store the context in the ctx variable.
 
-Finally, let's call our function when the window has loaded and is ready to go.
+Finally, let's call init when the window has loaded and is ready to go.
 ```
 ...
 }
@@ -128,3 +129,61 @@ window.onload = init;
 ```
 
 When you load this file, you should see that the canvas has been resized according to CANVAS_W and CANVAS_H. Your code should now match tut02.html in the tutorial directory.
+
+### Step Three - Draw the Ship
+
+Now that we have a canvas, let's draw something. Similar to the canvas, we'll give our ship some parameters. The ship variable will hold an image object. Our location on the canvas will be tracked by x and y. I used the dimensions of my ship image for W and H. If you use something different, change them accordingly.
+```
+...
+var ctx;
+
+//ship vars
+var ship;
+var SHIP_W = 50;
+var SHIP_H = 57;
+var ship_x;
+var ship_y;
+
+//init functions
+...
+```
+
+It's helpful to give the ship an init function too, as we'll want to reinitialize the ship whenever it is destroyed. These formulas will center the ship near the bottom of the screen.
+```
+...
+}
+
+function shipInit() {
+	ship_x = (CANVAS_W / 2) - (SHIP_W / 2);
+	ship_y = CANVAS_H - (1.5 * SHIP_H);
+}
+...
+```
+
+Our canvas context has a built-in drawImage method which will accept an image and a target coordinate. Let's wrap that up in a draw function.
+```
+...
+}
+
+//draw functions
+function drawShip() {
+	ctx.drawImage(ship, ship_x, ship_y);
+}
+
+//start game
+...
+```
+
+Finally, our main init function will need to put this all together. We'll run our ship's init function, store a ship image in an Image object and finally, draw the ship.
+```
+...
+	ctx = canvas.getContext('2d');
+	shipInit();
+	ship = new Image();
+	ship.src = 'ship.png';
+	drawShip();
+}
+...
+```
+
+We've now completed the third tutorial step. If you load this in your browser, you should see the ship at the bottom of the canvas. If you don't see it right away, try refreshing the page. It can take longer to load an image than to execute the rest of the code. This is an issue we'll resolve in later steps.
