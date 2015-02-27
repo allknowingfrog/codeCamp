@@ -187,3 +187,66 @@ Finally, our main init function will need to put this all together. We'll run ou
 ```
 
 We've now completed the third tutorial step. If you load this in your browser, you should see the ship at the bottom of the canvas. If you don't see it right away, try refreshing the page. It can take longer to load an image than to execute the rest of the code. This is an issue we'll resolve in later steps.
+
+### Step Four - Game Loop
+
+In this step, we'll create our game loop. The game loop runs continuously during the game, and will do all of the real work (like moving players, checking collisions and keeping the score up to date). We'll need one new variable.
+
+```
+...
+var ship_y;
+
+//misc vars
+var FPS = 30;
+
+//init functions
+...
+```
+The FPS variable will determine how many time the game loop runs per second (Frames Per Second). For our purposes, 30 should be fast enough to give us smooth movements.
+
+We'll need one new function (aside from the game loop itself).
+```
+...
+//draw functions
+function clearCanvas() {
+	ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+}
+
+function drawShip() {
+...
+```
+This function will erase the canvas. Every time something in the game moves, we want to erase the old images before we draw them in their new locations.
+
+For now, the game loop only needs to clear the screen and redraw the ship.
+```
+...
+var FPS = 30;
+
+//game loop
+function gameLoop() {
+	clearCanvas();
+	drawShip();
+}
+
+//init functions
+...
+```
+
+Lastly, we'll use the init function to start the game loop. Notice that drawShip has moved from init to gameLoop.
+```
+...
+function init() {
+    canvas = document.getElementById('canvas');
+    canvas.width = CANVAS_W;
+    canvas.height = CANVAS_H;
+    ctx = canvas.getContext('2d');
+    shipInit();
+    ship = new Image();
+    ship.src = 'ship.png';
+    setInterval(gameLoop, 1000 / FPS);
+}
+...
+```
+The setInterval function calls a function ever so many thousands of a second. This code will call gameLoop 30 times each second.
+
+That brings us to the end of step 4. If you load this in the browser, you won't actually see anything new happening, but behind the scenes, the canvas in repeatedly drawing and erasing your ship image.
